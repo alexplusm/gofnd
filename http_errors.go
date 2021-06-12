@@ -1,6 +1,7 @@
 package gofnd
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -15,7 +16,7 @@ func NewBadRequestHTTPError(msg string, err error) *echo.HTTPError {
 	m := "bad request"
 
 	if msg != "" {
-		m += ": " + msg
+		m += fmt.Sprintf(": %v", msg)
 	}
 
 	return echo.NewHTTPError(http.StatusBadRequest, m).SetInternal(err)
