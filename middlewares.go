@@ -1,6 +1,7 @@
 package gofnd
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -28,6 +29,26 @@ func LoggerMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		return logrusMiddlewareHandler(ctx, next)
 	}
 }
+
+func CustomErrorHandler(err error, ctx echo.Context) {
+	httpError := &echo.HTTPError{
+		Code:    http.StatusInternalServerError,
+		Message: http.StatusText(http.StatusInternalServerError),
+	}
+
+	if he, ok := err.(*echo.HTTPError); ok {
+		httpError = he
+	}
+
+	log.Info(httpError)
+
+	if err = ctx.JSON(httpError.Code, httpError); err != nil {
+		err = fmt.Errorf("gofnd: [.CustomErrorHandler][1]: %+v", err)
+		log.Error(err)
+	}
+}
+
+// --- private
 
 func logrusMiddlewareHandler(c echo.Context, next echo.HandlerFunc) error {
 	req := c.Request()
