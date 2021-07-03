@@ -33,13 +33,13 @@ func SetupLogger(fileName string, writeToFile bool) {
 	log.SetLevel(logLevel)
 
 	if writeToFile {
-		if err := os.MkdirAll(logsDir, 0666); err != nil {
+		if err := os.MkdirAll(logsDir, 0777); err != nil {
 			log.Fatalf("gofnd[.SetupLogger][1]: %v", err)
 		}
 
 		logFilePath := filepath.Join(logsDir, fmt.Sprintf("%v.log", fileName))
 
-		file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+		file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)
 		if err != nil {
 			log.Fatalf("gofnd[.SetupLogger][2]: %v", err)
 		}
