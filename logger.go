@@ -33,10 +33,15 @@ func SetupLogger(fileName string, writeToFile bool) {
 	log.SetLevel(logLevel)
 
 	if writeToFile {
+		if err := os.MkdirAll(logsDir, 0666); err != nil {
+			log.Fatalf("[1]: %v", err)
+		}
+
 		logFilePath := filepath.Join(logsDir, fmt.Sprintf("%v.log", fileName))
+
 		file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("[2]: %v", err)
 		}
 
 		// TODO: need close file???
