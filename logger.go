@@ -1,7 +1,6 @@
 package gofnd
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -37,7 +36,7 @@ func SetupLogger(fileName string, writeToFile bool) {
 			log.Fatalf("gofnd[.SetupLogger][1]: %v", err)
 		}
 
-		logFilePath := filepath.Join(logsDir, fmt.Sprintf("%v.log", fileName))
+		logFilePath := filepath.Join(logsDir, fileName)
 
 		file, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0777)
 		if err != nil {
